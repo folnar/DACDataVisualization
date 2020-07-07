@@ -39,16 +39,16 @@ namespace DACDataVisualization
             {
                 X1 = ap.PlotPadding,
                 X2 = PlotCanvas.ActualWidth - ap.PlotPadding,
-                Y1 = originY,
-                Y2 = originY,
+                Y1 = ap.PlotPadding,
+                Y2 = ap.PlotPadding,
                 Stroke = ap.HorizontalAxisBrush,
                 StrokeThickness = ap.HorizontalAxisThickness
             };
             _ = PlotCanvas.Children.Add(HorizontalAxis);
             VerticalAxis = new Line()
             {
-                X1 = originX,
-                X2 = originX,
+                X1 = ap.PlotPadding,
+                X2 = ap.PlotPadding,
                 Y1 = ap.PlotPadding,
                 Y2 = PlotCanvas.ActualHeight - ap.PlotPadding,
                 Stroke = ap.VerticalAxisBrush,
@@ -108,6 +108,10 @@ namespace DACDataVisualization
             }
 
             DrawGridLines();
+            XAxisLabel XLabel = XAxisLabel.NewAxisLabel("Year", 0.5, 15, Brushes.DarkGray, Brushes.AntiqueWhite, new FontFamily("Century Gothic"), 18);
+            Canvas.SetLeft(XLabel, HorizontalAxis.X2 - (HorizontalAxis.X2 - HorizontalAxis.X1) * 0.5);
+            Canvas.SetTop(XLabel, HorizontalAxis.Y1 - 10);
+            PlotCanvas.Children.Add(XLabel);
         }
 
         // THIS MOST BASIC VERSION NEEDS A LOT OF WORK. IT NEEDS A GRIDLINESPREFERENCES OBJECT FOR STARTERS.
