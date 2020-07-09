@@ -69,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AxesPreferences2D.cs" />
+    <Compile Include="CurvePreferences.cs" />
     <Compile Include="IPlotPreferences.cs" />
     <Compile Include="DataPointPreferences.cs" />
     <Compile Include="LabelPreferences.cs" />

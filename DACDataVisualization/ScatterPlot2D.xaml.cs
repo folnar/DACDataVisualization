@@ -159,6 +159,22 @@ namespace DACDataVisualization
             }
         }
 
+        public void PlotCurve2D(PointCollection points, CurvePreferences cp)
+        {
+            TranslatePoints2D(points, out PointCollection translatedPoints);
+
+            Polyline curve = new Polyline
+            {
+                Points = translatedPoints,
+                Stroke = cp.StrokeBrush,
+                StrokeThickness = cp.Thickness,
+                StrokeDashArray = cp.DashArray,
+                StrokeDashCap = cp.DashCap,
+                StrokeDashOffset = cp.DashOffset
+            };
+            _ = PlotCanvas.Children.Add(curve);
+        }
+
         public void PlotCurve2D(PointCollection points)
         {
             TranslatePoints2D(points, out PointCollection translatedPoints);
@@ -166,7 +182,7 @@ namespace DACDataVisualization
             Polyline curve = new Polyline
             {
                 Points = translatedPoints,
-                Stroke = new SolidColorBrush(Colors.Black),
+                Stroke = Brushes.Black,
                 StrokeThickness = 1
             };
             _ = PlotCanvas.Children.Add(curve);
