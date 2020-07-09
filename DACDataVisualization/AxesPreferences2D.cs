@@ -20,10 +20,12 @@ namespace DACDataVisualization
             set { VerticalAxisThickness = value; HorizontalAxisThickness = value; }
         }
         public int ArrowStyle { get; set; }
+        public LabelPreferences YAxisLabelPreferences { get; set; }
+        public LabelPreferences XAxisLabelPreferences { get; set; }
 
         private AxesPreferences2D() { }
 
-        public static AxesPreferences2D CreateObject(Color c, double t)
+        public static AxesPreferences2D CreateObject(Color c, double t, LabelPreferences xlblprefs = null, LabelPreferences ylblprefs = null)
         {
             AxesPreferences2D ap = new AxesPreferences2D
             {
@@ -31,13 +33,15 @@ namespace DACDataVisualization
                 {
                     Color = c
                 },
-                StrokeThickness = t
+                StrokeThickness = t,
+                XAxisLabelPreferences = xlblprefs,
+                YAxisLabelPreferences = ylblprefs
             };
 
             return ap;
         }
 
-        public static AxesPreferences2D CreateObject(Color colorX, Color colorY, double thicknessX, double thicknessY, double plotpadding, int arrowStyle)
+        public static AxesPreferences2D CreateObject(Color colorX, Color colorY, double thicknessX, double thicknessY, double plotpadding, int arrowStyle, LabelPreferences xlblprefs = null, LabelPreferences ylblprefs = null)
         {
             AxesPreferences2D ap = new AxesPreferences2D
             {
@@ -52,7 +56,9 @@ namespace DACDataVisualization
                 VerticalAxisThickness = thicknessX,
                 HorizontalAxisThickness = thicknessY,
                 PlotPadding = plotpadding,
-                ArrowStyle = arrowStyle
+                ArrowStyle = arrowStyle,
+                XAxisLabelPreferences = xlblprefs,
+                YAxisLabelPreferences = ylblprefs
             };
 
             return ap;

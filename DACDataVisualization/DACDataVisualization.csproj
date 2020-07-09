@@ -71,10 +71,12 @@
     <Compile Include="AxesPreferences2D.cs" />
     <Compile Include="IPlotPreferences.cs" />
     <Compile Include="DataPointPreferences.cs" />
+    <Compile Include="LabelPreferences.cs" />
     <Compile Include="ScatterPlot2D.xaml.cs">
       <DependentUpon>ScatterPlot2D.xaml</DependentUpon>
     </Compile>
     <Compile Include="XAxisLabel.cs" />
+    <Compile Include="YAxisLabel.cs" />
     <Page Include="ScatterPlot2D.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

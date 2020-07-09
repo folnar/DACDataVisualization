@@ -1,9 +1,10 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace DACDataVisualization
 {
-    class XAxisLabel : TextBlock
+    internal class XAxisLabel : TextBlock
     {
         private double XOffsetPct { get; set; }
         private double YOffsetPixels { get; set; }
@@ -25,11 +26,31 @@ namespace DACDataVisualization
             };
         }
 
-        public void DrawLabel(Canvas PlotCanvas)
+        internal static XAxisLabel NewAxisLabel(string label, double xoffsetPct, int yoffsetPixels, LabelPreferences xlp)
         {
-            //Line axis = PlotCanvas.HorizontalAxis;
-            //Canvas.SetLeft(this, HorizontalAxis.X2 - (HorizontalAxis.X2 - HorizontalAxis.X1) * XOffsetPct);
-            //Canvas.SetTop(this, HorizontalAxis.Y1 - YOffsetPixels);
+            return new XAxisLabel()
+            {
+                Text = label,
+                Foreground = xlp.Foreground,
+                Background = xlp.Background,
+                FontFamily = xlp.Font,
+                FontSize = xlp.Fontsize,
+                FontStyle = xlp.Style,
+                FontWeight = xlp.Weight,
+                RenderTransform = new ScaleTransform(1, -1, 0.5, 0.5),
+                XOffsetPct = xoffsetPct,
+                YOffsetPixels = yoffsetPixels
+            };
+        }
+
+        internal double CanvasLeftPosition(Line horizontalAxis)
+        {
+            return horizontalAxis.X2 - (horizontalAxis.X2 - horizontalAxis.X1) * XOffsetPct;
+        }
+
+        internal double CanvasTopPosition(Line horizontalAxis)
+        {
+            return horizontalAxis.Y1 - YOffsetPixels + DesiredSize.Height;
         }
     }
 }

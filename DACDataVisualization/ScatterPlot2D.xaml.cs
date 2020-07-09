@@ -59,6 +59,7 @@ namespace DACDataVisualization
             // THIS IS BEGGING FOR AN ARROWHEAD OR AXISENDDECORATION CLASS.
             // SCALING ARROWHEADS BY AXIS LENGTH WHEN X AND Y HAVE DIFFERENT LENGTHS
             // CAN LEAD TO FUNNY-LOOKING AXES. KEEP AN EYE ON THIS.
+            // WE ARE ALSO NOT ADDRESSING LEFT- AND DOWN-FACING ARROWS.
             if (ap.ArrowStyle == 1)
             {
                 double arrowheadWidthScalingFactor = 60;
@@ -108,10 +109,15 @@ namespace DACDataVisualization
             }
 
             DrawGridLines();
-            XAxisLabel XLabel = XAxisLabel.NewAxisLabel("Year", 0.5, 15, Brushes.DarkGray, Brushes.AntiqueWhite, new FontFamily("Century Gothic"), 18);
-            Canvas.SetLeft(XLabel, HorizontalAxis.X2 - (HorizontalAxis.X2 - HorizontalAxis.X1) * 0.5);
-            Canvas.SetTop(XLabel, HorizontalAxis.Y1 - 10);
+
+            XAxisLabel XLabel = XAxisLabel.NewAxisLabel("Year", 0.5, 15, ap.XAxisLabelPreferences);
+            Canvas.SetLeft(XLabel, XLabel.CanvasLeftPosition(HorizontalAxis));
+            Canvas.SetTop(XLabel, XLabel.CanvasTopPosition(HorizontalAxis));
             PlotCanvas.Children.Add(XLabel);
+            YAxisLabel YLabel = YAxisLabel.NewAxisLabel("Butts", 0, 0, ap.YAxisLabelPreferences);
+            Canvas.SetLeft(YLabel, YLabel.CanvasLeftPosition(VerticalAxis));
+            Canvas.SetTop(YLabel, YLabel.CanvasTopPosition(VerticalAxis));
+            PlotCanvas.Children.Add(YLabel);
         }
 
         // THIS MOST BASIC VERSION NEEDS A LOT OF WORK. IT NEEDS A GRIDLINESPREFERENCES OBJECT FOR STARTERS.
