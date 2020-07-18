@@ -4,7 +4,7 @@ using System.Windows.Shapes;
 
 namespace DACDataVisualization
 {
-    internal class XAxisLabel : TextBlock
+    public class XAxisLabel : TextBlock
     {
         private double XOffsetPct { get; set; }
         private double YOffsetPixels { get; set; }
@@ -26,7 +26,7 @@ namespace DACDataVisualization
             };
         }
 
-        internal static XAxisLabel NewAxisLabel(string label, double xoffsetPct, int yoffsetPixels, LabelPreferences xlp)
+        public static XAxisLabel NewAxisLabel(string label, double xoffsetPct, int yoffsetPixels, LabelPreferences xlp)
         {
             return new XAxisLabel()
             {

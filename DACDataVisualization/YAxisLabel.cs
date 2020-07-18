@@ -4,43 +4,64 @@ using System.Windows.Shapes;
 
 namespace DACDataVisualization
 {
-    internal class YAxisLabel : TextBlock
+    public class YAxisLabel : TextBlock
     {
         private double YOffsetPct { get; set; }
         private double XOffsetPixels { get; set; }
 
         private YAxisLabel() { }
 
-        public static YAxisLabel NewAxisLabel(string label, double yoffsetPct, double xoffsetPixels, Brush foreground, Brush background, FontFamily font, double fontsize)
+        public static YAxisLabel NewAxisLabel(string label, double yoffsetPct, double xoffsetPixels, Brush foreground, Brush background, FontFamily font, double fontsize, LabelOrientations orientation)
         {
-            return new YAxisLabel()
+            YAxisLabel yal = new YAxisLabel()
             {
                 Text = label,
                 Foreground = foreground,
                 Background = background,
                 FontFamily = font,
                 FontSize = fontsize,
-                RenderTransform = new ScaleTransform(1, -1, 0.5, 0.5),
                 YOffsetPct = yoffsetPct,
                 XOffsetPixels = xoffsetPixels
             };
+            ScaleTransform st = new ScaleTransform(1, -1, 0.5, 0.5);
+            TransformGroup tg = new TransformGroup();
+            tg.Children.Add(st);
+            if (orientation == LabelOrientations.VerticalBottomToTop)
+                tg.Children.Add(new RotateTransform(90));
+            if (orientation == LabelOrientations.VerticalTopToBottom)
+                tg.Children.Add(new RotateTransform(-90));
+            yal.RenderTransform = tg;
+
+            return yal;
         }
 
-        internal static YAxisLabel NewAxisLabel(string label, double yoffsetPct, int xoffsetPixels, LabelPreferences xlp)
+        public static YAxisLabel NewAxisLabel(string label, double yoffsetPct, int xoffsetPixels, LabelPreferences ylp)
         {
-            return new YAxisLabel()
+            YAxisLabel yal = new YAxisLabel()
             {
                 Text = label,
-                Foreground = xlp.Foreground,
-                Background = xlp.Background,
-                FontFamily = xlp.Font,
-                FontSize = xlp.Fontsize,
-                FontStyle = xlp.Style,
-                FontWeight = xlp.Weight,
-                RenderTransform = new ScaleTransform(1, -1, 0.5, 0.5),
+                Foreground = ylp.Foreground,
+                Background = ylp.Background,
+                FontFamily = ylp.Font,
+                FontSize = ylp.Fontsize,
+                FontStyle = ylp.Style,
+                FontWeight = ylp.Weight,
                 YOffsetPct = yoffsetPct,
                 XOffsetPixels = xoffsetPixels
             };
+            ScaleTransform st = new ScaleTransform(1, -1, 0.5, 0.5);
+            TransformGroup tg = new TransformGroup();
+            tg.Children.Add(st);
+            if (ylp.Orientation == LabelOrientations.VerticalBottomToTop)
+            {
+                yal.RenderTransformOrigin = new System.Windows.Point(1, 1);
+                tg.Children.Add(new RotateTransform(90));
+            }
+            if (ylp.Orientation == LabelOrientations.VerticalTopToBottom)
+                tg.Children.Add(new RotateTransform(-90));
+            yal.RenderTransform = tg;
+
+            return yal;
         }
 
         internal double CanvasLeftPosition(Line verticalAxis)

@@ -20,9 +20,12 @@ namespace DACDataVisualization
         private Line HorizontalAxis;
         private Line VerticalAxis;
 
+        private GridLines PlotGridLines;
+
         public ScatterPlot2D()
         {
             InitializeComponent();
+            PlotGridLines = null;
         }
 
         // originX and originY are offsets from LL corner of canvas where 0 <= oX, oY <= 1
@@ -108,16 +111,38 @@ namespace DACDataVisualization
                 });
             }
 
-            DrawGridLines();
+            if (ap.XLabel != null)
+                DrawXAxisLabel(ap.XLabel);
+            if (ap.YLabel != null)
+                DrawYAxisLabel(ap.YLabel);
+        }
 
-            XAxisLabel XLabel = XAxisLabel.NewAxisLabel("Year", 0.5, 15, ap.XAxisLabelPreferences);
-            Canvas.SetLeft(XLabel, XLabel.CanvasLeftPosition(HorizontalAxis));
-            Canvas.SetTop(XLabel, XLabel.CanvasTopPosition(HorizontalAxis));
-            PlotCanvas.Children.Add(XLabel);
-            YAxisLabel YLabel = YAxisLabel.NewAxisLabel("Butts", 0, 0, ap.YAxisLabelPreferences);
-            Canvas.SetLeft(YLabel, YLabel.CanvasLeftPosition(VerticalAxis));
-            Canvas.SetTop(YLabel, YLabel.CanvasTopPosition(VerticalAxis));
-            PlotCanvas.Children.Add(YLabel);
+        public void SetPlotGridLines(int numHorizontalLines, int numVerticalLines, CurvePreferences glcp = null)
+        {
+            if (glcp == null)
+                glcp = CurvePreferences.NewCurvePreferences(new SolidColorBrush { Color = Color.FromArgb(70, 0x77, 0x88, 0x99) }, 1);
+            PlotGridLines = GridLines.NewGridLines(glcp, HorizontalAxis.X1, HorizontalAxis.X2, VerticalAxis.Y1, VerticalAxis.Y2, numVerticalLines, numHorizontalLines);
+            DrawPlotGridLines();
+        }
+
+        private void DrawPlotGridLines()
+        {
+            foreach (Line gridLine in PlotGridLines.GridLineSet)
+                PlotCanvas.Children.Add(gridLine);
+        }
+
+        public void DrawXAxisLabel(XAxisLabel xal)
+        {
+            Canvas.SetLeft(xal, xal.CanvasLeftPosition(HorizontalAxis));
+            Canvas.SetTop(xal, xal.CanvasTopPosition(HorizontalAxis));
+            PlotCanvas.Children.Add(xal);
+        }
+
+        public void DrawYAxisLabel(YAxisLabel yal)
+        {
+            Canvas.SetLeft(yal, yal.CanvasLeftPosition(VerticalAxis));
+            Canvas.SetTop(yal, yal.CanvasTopPosition(VerticalAxis));
+            PlotCanvas.Children.Add(yal);
         }
 
         // THIS MOST BASIC VERSION NEEDS A LOT OF WORK. IT NEEDS A GRIDLINESPREFERENCES OBJECT FOR STARTERS.
