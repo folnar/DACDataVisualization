@@ -16,10 +16,20 @@
             Background="Cornsilk"
             IsHitTestVisible="True"
             MouseLeftButtonUp="PlotCanvas_MouseLeftButtonUp"
+            MouseRightButtonUp="PlotCanvas_MouseRightButtonUp"
             SizeChanged="Viewbox_SizeChanged">
             <Canvas.LayoutTransform>
                 <ScaleTransform CenterX="1" CenterY="1" ScaleY="-1" />
             </Canvas.LayoutTransform>
+            <Popup
+                x:Name="CoordsPopup"
+                Placement="Center">
+                <TextBlock
+                    x:Name="CoordsPopupText"
+                    Background="LightBlue"
+                    Foreground="Black"
+                    Text="Stuffs and stuff" />
+            </Popup>
         </Canvas>
     </Viewbox>
 </UserControl>

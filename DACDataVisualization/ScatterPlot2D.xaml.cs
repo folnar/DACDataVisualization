@@ -29,7 +29,7 @@ namespace DACDataVisualization
         }
 
         // originX and originY are offsets from LL corner of canvas where 0 <= oX, oY <= 1
-        public void SetAxes(double x0, double x1, double y0, double y1, AxesPreferences2D ap)
+        public void SetAxes(double x0, double x1, double y0, double y1, AxesPreferences2D ap, bool drawHorAxisAtY0 = false)
         {
             double adjCanvasWidth = PlotCanvas.ActualWidth - 2 * ap.PlotPadding;
             double adjCanvasHeight = PlotCanvas.ActualHeight - 2 * ap.PlotPadding;
@@ -42,8 +42,8 @@ namespace DACDataVisualization
             {
                 X1 = ap.PlotPadding,
                 X2 = PlotCanvas.ActualWidth - ap.PlotPadding,
-                Y1 = ap.PlotPadding,
-                Y2 = ap.PlotPadding,
+                Y1 = drawHorAxisAtY0 ? originY : ap.PlotPadding,
+                Y2 = drawHorAxisAtY0 ? originY : ap.PlotPadding,
                 Stroke = ap.HorizontalAxisBrush,
                 StrokeThickness = ap.HorizontalAxisThickness
             };
@@ -145,45 +145,6 @@ namespace DACDataVisualization
             PlotCanvas.Children.Add(yal);
         }
 
-        // THIS MOST BASIC VERSION NEEDS A LOT OF WORK. IT NEEDS A GRIDLINESPREFERENCES OBJECT FOR STARTERS.
-        // IT ALSO NEEDS TO BE ABLE TO HANDLE A PRESET NUMBER OF LINES IN EACH DIMENSION WHICH CAN BE DIFFERENT.
-        // IT ALSO NEEDS TO BE ABLE TO DRAW LINES INDICATED BY A XDIM ARRAY OF INTERCEPTS AND A YDIM ONE.
-        // PERHAPS THE THING TO DO IS HAVE ONE DRAWGRIDLINES(DOUBLE[] XINTERCEPTS, DOUBLE[] YINTERCEPTS) WITH
-        // DIFFERENT WRAPPERS WHICH CALCULATE THE INTERCEPTS DEPENDING ON THE INPUTS AND WHATNOT.
-        private void DrawGridLines()
-        {
-            Brush b = new SolidColorBrush { Color = Color.FromArgb(70, 0x77, 0x88, 0x99) };
-            double t = 1;
-            for (int idx = 1; idx < 9; ++idx)
-            {
-                double xVal = originX + scaleX * idx;
-                Line gridLine = new Line
-                {
-                    Stroke = b,
-                    StrokeThickness = t,
-                    X1 = xVal,
-                    X2 = xVal,
-                    Y1 = VerticalAxis.Y1,
-                    Y2 = VerticalAxis.Y2
-                };
-                _ = PlotCanvas.Children.Add(gridLine);
-            }
-            for (int idx = 10; idx < 90; idx += 10)
-            {
-                double yVal = originY + scaleY * idx;
-                Line gridLine = new Line
-                {
-                    Stroke = b,
-                    StrokeThickness = t,
-                    X1 = HorizontalAxis.X1,
-                    X2 = HorizontalAxis.X2,
-                    Y1 = yVal,
-                    Y2 = yVal
-                };
-                _ = PlotCanvas.Children.Add(gridLine);
-            }
-        }
-
         public void PlotCurve2D(PointCollection points, CurvePreferences cp)
         {
             TranslatePoints2D(points, out PointCollection translatedPoints);
@@ -276,7 +237,10 @@ namespace DACDataVisualization
             double untranslatedX = (closestX - originX) / scaleX;
             double untranslatedY = (closestY - originY) / scaleY;
             string coords = "X-Coordinate: " + untranslatedX + "\n" + "Y-Coordinate: " + untranslatedY;
-            MessageBox.Show(coords);
+            CoordsPopup.IsOpen = false;
+            CoordsPopup.Placement = System.Windows.Controls.Primitives.PlacementMode.MousePoint;
+            CoordsPopupText.Text = coords;
+            CoordsPopup.IsOpen = true;
         }
 
         private void Viewbox_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -286,6 +250,11 @@ namespace DACDataVisualization
             //    return;
             //}
             //ClearPlotArea();
+        }
+
+        private void PlotCanvas_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            CoordsPopup.IsOpen = false;
         }
     }
 }
