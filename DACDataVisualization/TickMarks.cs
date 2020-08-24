@@ -26,8 +26,8 @@ namespace DACDataVisualization
                     X2 = lineloc,
                     Y1 = startY,
                     Y2 = endY,
-                    Stroke = cp.StrokeBrush,
-                    StrokeThickness = cp.Thickness
+                    Stroke = cp.Brush,
+                    StrokeThickness = cp.StrokeThickness
                 });
             double yInterval = (endY - startY) / numYLines;
             for (double lineloc = startY; lineloc <= endY; lineloc += yInterval)
@@ -37,8 +37,8 @@ namespace DACDataVisualization
                     X2 = endX,
                     Y1 = lineloc,
                     Y2 = lineloc,
-                    Stroke = cp.StrokeBrush,
-                    StrokeThickness = cp.Thickness
+                    Stroke = cp.Brush,
+                    StrokeThickness = cp.StrokeThickness
                 });
 
             return tm;

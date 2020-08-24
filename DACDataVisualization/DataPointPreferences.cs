@@ -4,7 +4,7 @@ namespace DACDataVisualization
 {
     public class DataPointPreferences : IPlotPreferences
     {
-        public SolidColorBrush Brush { get; set; }
+        public Brush Brush { get; set; }
         public double StrokeThickness { get; set; }
         public double XDim { get; set; }
         public double YDim { get; set; }
@@ -15,10 +15,7 @@ namespace DACDataVisualization
         {
             DataPointPreferences dpp = new DataPointPreferences
             {
-                Brush = new SolidColorBrush
-                {
-                    Color = c
-                },
+                Brush = new SolidColorBrush(c),
                 StrokeThickness = t,
                 XDim = xDim,
                 YDim = yDim

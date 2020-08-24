@@ -2,10 +2,10 @@
 
 namespace DACDataVisualization
 {
-    public class CurvePreferences
+    public class CurvePreferences : IPlotPreferences
     {
-        public Brush StrokeBrush { get; set; }
-        public double Thickness { get; set; }
+        public Brush Brush { get; set; }
+        public double StrokeThickness { get; set; }
         public DoubleCollection DashArray { get; set; }
         public PenLineCap DashCap { get; set; }
         public double DashOffset { get; set; }
@@ -16,8 +16,8 @@ namespace DACDataVisualization
         {
             return new CurvePreferences
             {
-                StrokeBrush = colorBrush,
-                Thickness = strokeThickness,
+                Brush = colorBrush,
+                StrokeThickness = strokeThickness,
                 DashArray = dashesArray,
                 DashCap = dashCaps,
                 DashOffset = dashOffset
@@ -28,8 +28,8 @@ namespace DACDataVisualization
         {
             CurvePreferences cp = new CurvePreferences()
             {
-                StrokeBrush = colorBrush,
-                Thickness = strokeThickness
+                Brush = colorBrush,
+                StrokeThickness = strokeThickness
             };
             cp.DashArray = new DoubleCollection() { 1 };
             cp.DashCap = PenLineCap.Flat;

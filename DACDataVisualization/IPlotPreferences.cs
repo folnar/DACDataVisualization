@@ -4,7 +4,7 @@ namespace DACDataVisualization
 {
     interface IPlotPreferences
     {
-        SolidColorBrush Brush { get; set; }
+        Brush Brush { get; set; }
         double StrokeThickness { get; set; }
     }
 }

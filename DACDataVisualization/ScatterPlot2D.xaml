@@ -13,23 +13,29 @@
             x:Name="PlotCanvas"
             Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl, AncestorLevel=1}, Path=ActualWidth}"
             Height="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl, AncestorLevel=1}, Path=ActualHeight}"
-            Background="Cornsilk"
+            Background="WhiteSmoke"
+            ClipToBounds="True"
             IsHitTestVisible="True"
-            MouseLeftButtonUp="PlotCanvas_MouseLeftButtonUp"
-            MouseRightButtonUp="PlotCanvas_MouseRightButtonUp"
+            MouseDown="PlotCanvas_MouseDown"
+            MouseMove="PlotCanvas_MouseMove"
+            MouseUp="PlotCanvas_MouseUp"
             SizeChanged="Viewbox_SizeChanged">
             <Canvas.LayoutTransform>
                 <ScaleTransform CenterX="1" CenterY="1" ScaleY="-1" />
             </Canvas.LayoutTransform>
-            <Popup
-                x:Name="CoordsPopup"
-                Placement="Center">
+            <Popup x:Name="CoordsPopup" Placement="Center">
                 <TextBlock
                     x:Name="CoordsPopupText"
                     Background="LightBlue"
                     Foreground="Black"
-                    Text="Stuffs and stuff" />
+                    Text="" />
             </Popup>
+            <Rectangle
+                x:Name="ZoomBox"
+                Panel.ZIndex="100"
+                Stroke="Black"
+                StrokeThickness="1"
+                Visibility="Collapsed" />
         </Canvas>
     </Viewbox>
 </UserControl>
